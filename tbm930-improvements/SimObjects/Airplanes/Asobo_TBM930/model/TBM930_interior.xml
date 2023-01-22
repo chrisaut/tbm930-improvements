@@ -2559,5 +2559,16 @@
       </UseTemplate>
     </Component>
 
+    <Component ID="LVAR_TO_BVAR">
+      <UseTemplate Name="ASOBO_GT_Update">
+        <UPDATE_CODE>
+          (L:TBM930_BAT_SET, Number) s0 0 &gt; if{ l0 1 - (&gt;B:ELECTRICAL_Source_Switch_Set) 0 (&gt;L:TBM930_BAT_SET) }
+          (L:TBM930_BLEED_AIR_SET, Number) s0 0 &gt; if{ l0 1 - (&gt;B:PRESSURIZATION_Bleed_Air_Source_Set) 0 (&gt;L:TBM930_BLEED_AIR_SET) }
+          (L:TBM930_INERT_SET, Number) s0 0 &gt; if{ l0 1 - (&gt;B:DEICE_Engine_1_Set) 0 (&gt;L:TBM930_INERT_SET) }
+          (L:TBM930_CABIN_LIGHT_SET, Number) s0 0 &gt; if{ l0 1 - (&gt;B:LIGHTING_Cabin_Light_Set) 0 (&gt;L:TBM930_CABIN_LIGHT_SET) }
+        </UPDATE_CODE>
+        <FREQUENCY>2</FREQUENCY>
+      </UseTemplate>
+    </Component>
   </Behaviors>
 </ModelInfo>
