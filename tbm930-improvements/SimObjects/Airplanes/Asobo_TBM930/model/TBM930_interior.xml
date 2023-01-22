@@ -2570,5 +2570,55 @@
         <FREQUENCY>2</FREQUENCY>
       </UseTemplate>
     </Component>
+
+    <Component ID="SUN_VISOR">
+        <UseTemplate Name="ASOBO_GT_Update">
+            <UPDATE_ONCE>True</UPDATE_ONCE>
+            <UPDATE_CODE>
+                100 (&gt;L:XMLVAR_SunVisorX_1)
+                100 (&gt;L:XMLVAR_SunVisorY_1)
+                100 (&gt;L:XMLVAR_SunVisorY_2)
+            </UPDATE_CODE>
+        </UseTemplate>
+        <Component ID="SUN_VISOR_PILOT_part01" Node="SUN_VISOR_PILOT_part01">
+            <UseTemplate Name="TBM930_DragXAxis_Code">
+                <ANIM_NAME>SUN_VISOR_PILOT_part01</ANIM_NAME>
+                <ID>1</ID>
+                <INVERT_ANIM>True</INVERT_ANIM>
+                <UP_CODE/>
+                <DOWN_CODE/>
+                <TOOLTIPID>Sun Visor Left/Right</TOOLTIPID>
+            </UseTemplate>
+        </Component>
+        <Component ID="SUN_VISOR_PILOT_part02" Node="SUN_VISOR_PILOT_part02">
+            <UseTemplate Name="TBM930_DragYAxis_Code">
+                <ANIM_NAME>SUN_VISOR_PILOT_part02</ANIM_NAME>
+                <ID>1</ID>
+                <INVERT_ANIM>True</INVERT_ANIM>
+                <UP_CODE/>
+                <DOWN_CODE/>
+                <TOOLTIPID>Sun Visor Up/Down</TOOLTIPID>
+            </UseTemplate>
+        </Component>
+        <Component ID="SUN_VISOR_COPILOT_part01" Node="SUN_VISOR_COPILOT_part01">
+            <UseTemplate Name="TBM930_DragXAxis_Code">
+                <ANIM_NAME>SUN_VISOR_COPILOT_part01</ANIM_NAME>
+                <ID>2</ID>
+                <UP_CODE/>
+                <DOWN_CODE/>
+                <TOOLTIPID>Sun Visor Left/Right</TOOLTIPID>
+            </UseTemplate>
+        </Component>
+        <Component ID="SUN_VISOR_COPILOT_part02" Node="SUN_VISOR_COPILOT_part02">
+            <UseTemplate Name="TBM930_DragYAxis_Code">
+                <ANIM_NAME>SUN_VISOR_COPILOT_part02</ANIM_NAME>
+                <ID>2</ID>
+                <INVERT_ANIM>True</INVERT_ANIM>
+                <UP_CODE/>
+                <DOWN_CODE/>
+                <TOOLTIPID>Sun Visor Up/Down</TOOLTIPID>
+            </UseTemplate>
+        </Component>
+    </Component>
   </Behaviors>
 </ModelInfo>
