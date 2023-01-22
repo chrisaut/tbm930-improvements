@@ -2621,6 +2621,20 @@
         </Component>
     </Component>
 
+    <Component ID="PASSENGER_TABLE" Node="table_passenger">
+        <UseTemplate Name="ASOBO_GT_Switch_Code">
+            <ANIM_NAME>table_passenger_01</ANIM_NAME>
+            <ANIM_CODE>(L:XMLVAR_TBM930_Table) 100 *</ANIM_CODE>
+            <ANIM_LENGTH>100</ANIM_LENGTH>
+            <LEFT_SINGLE_CODE>(L:XMLVAR_TBM930_Table) ! (&gt;L:XMLVAR_TBM930_Table)</LEFT_SINGLE_CODE>
+            <ANIMTIP_0>Unfold table</ANIMTIP_0>
+            <ANIMTIP_1>Fold table</ANIMTIP_1>
+            <WWISE_EVENT_1>doorknob_lock</WWISE_EVENT_1>
+            <WWISE_EVENT_2>doorknob_unlock</WWISE_EVENT_2>
+            <CURSOR>Grab</CURSOR>
+        </UseTemplate>
+    </Component>
+
     <Component ID="PILOTS">
         <DefaultTemplateParameters>
             <PILOT_COND>(L:XMLVAR_TBM930_HidePilot) ! (A:PAYLOAD STATION WEIGHT:1, pound) 100 &gt; and (A:CAMERA STATE, Enum) 2 != or</PILOT_COND>
