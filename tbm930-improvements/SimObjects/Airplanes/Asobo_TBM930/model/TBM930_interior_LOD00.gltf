@@ -62097,7 +62097,7 @@
             "mesh": 312,
             "skin": 2,
             "name": "Object002"
-        },
+        },        
         {
             "translation": [
                 0.316213369,
@@ -62162,6 +62162,32 @@
                 0.219702721
             ],
             "name": "SOL_PILOT_MALE"
+        },
+        {
+            "translation": [
+                0.31500103,
+                0.158521314,
+                0.189702721
+            ],
+            "extensions": {
+                "ASOBO_unique_id": {
+                    "id": "PILOT_0_20255"
+                }
+            },
+            "name": "PILOT_0"
+        },
+        {
+            "translation": [
+                -0.31416297,
+                0.158521314,
+                0.189702721
+            ],
+            "extensions": {
+                "ASOBO_unique_id": {
+                    "id": "PILOT_1_20256"
+                }
+            },
+            "name": "PILOT_1"
         }
     ],
     "scene": 0,
@@ -62396,7 +62422,9 @@
                 354,
                 355,
                 356,
-                357
+                357,
+                358,
+                359
             ]
         }
     ],
