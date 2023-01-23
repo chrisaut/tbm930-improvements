@@ -609,6 +609,10 @@
 
     <!-- PRESSURIZATION ############################# -->
     <Component ID="PRESSURIZATION">
+      <UseTemplate Name="ASOBO_GT_Update">
+          <UPDATE_ONCE>True</UPDATE_ONCE>
+          <UPDATE_CODE>(&gt;B:PRESSURIZATION_Micro_Mask_Toggle)</UPDATE_CODE>
+      </UseTemplate>
       <UseTemplate Name="ASOBO_PRESSURIZATION_Switch_Bleed_Template">
         <NODE_ID>pressurization_switch_bleed</NODE_ID>
         <THRESHOLD_MOUSE>0.01</THRESHOLD_MOUSE>
