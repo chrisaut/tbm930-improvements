@@ -1,0 +1,191 @@
+<Template Name = "Statesaving">	
+	<Update Frequency="1">		
+	
+		(L:STATE_LOADED) 4 &lt;=   
+		if{	
+	
+			(L:STATE_AVAILABLE) 
+			if{	
+				
+				(A:FUEL LEFT QUANTITY, gallons) 76 &lt;=
+				(A:FUEL LEFT QUANTITY, gallons) 75 &gt;= and 
+				(A:FUEL LEFT QUANTITY, gallons) 0 == or 
+				(L:STATE_FUEL_QUANTITY_L) 1 &gt;= and
+				if{
+					(L:STATE_FUEL_QUANTITY_L) 1 max (&gt;A:FUEL TANK LEFT MAIN QUANTITY, gallons)
+				}
+				
+				(A:FUEL RIGHT QUANTITY, gallons) 76 &lt;=
+				(A:FUEL RIGHT QUANTITY, gallons) 75 &gt;= and 
+				(A:FUEL RIGHT QUANTITY, gallons) 0 == or 
+				(L:STATE_FUEL_QUANTITY_R) 1 &gt;= and
+				if{
+					(L:STATE_FUEL_QUANTITY_R) 1 max (&gt;A:FUEL TANK RIGHT MAIN QUANTITY, gallons)
+				}
+	
+				
+				(L:STATE_BARO) 16 * (&gt;K:KOHLSMAN_SET, Millibars)
+			
+				(L:STATE_COM1A) (&gt;K:COM_RADIO_SET, BCD Hz)
+				(L:STATE_COM1S) (&gt;K:COM_STBY_RADIO_SET, BCD Hz)
+				(L:STATE_COM2A) (&gt;K:COM2_RADIO_SET, BCD Hz)
+				(L:STATE_COM2S)	(&gt;K:COM2_STBY_RADIO_SET, BCD Hz)
+				(L:STATE_NAV1A) (&gt;K:NAV1_RADIO_SET, BCD Hz)
+				(L:STATE_NAV1S) (&gt;K:NAV1_STBY_RADIO_SET, BCD Hz)
+				(L:STATE_NAV2A) (&gt;K:NAV2_RADIO_SET, BCD Hz)
+				(L:STATE_NAV2S) (&gt;K:NAV2_STBY_RADIO_SET, BCD Hz)
+				(L:STATE_ADF1A) (&gt;K:ADF_SET, BCD Hz)
+				(L:STATE_ADF1S) (&gt;K:ADF_COMPLETE_SET, BCD Hz)
+	
+				(L:STATE_XPNDR)	(&gt;K:XPNDR_SET, BCO16) 
+	
+	
+				(L:STATE_LIGHT_STB) (&gt;K:STROBES_SET, Bool) 
+				(L:STATE_LIGHT_POS) (&gt;K:NAV_LIGHTS_SET, Bool) 
+				(L:STATE_LIGHT_TXI) (&gt;K:TAXI_LIGHTS_SET, Bool) 
+				(L:STATE_LIGHT_LGN) (&gt;K:LANDING_LIGHTS_SET, Bool) 
+				
+				1 (L:STATE_LIGHT_CBN1) (&gt;K:2:CABIN_LIGHTS_SET, Bool) 
+				2 (L:STATE_LIGHT_CBN2) (&gt;K:2:CABIN_LIGHTS_SET, Bool) 
+				3 (L:STATE_LIGHT_CBN3) (&gt;K:2:CABIN_LIGHTS_SET, Bool) 
+			
+				(L:STATE_LIGHT_FLD)	(&gt;K:LIGHT_POTENTIOMETER_5_SET, Percent) 
+				(L:STATE_LIGHT_FLD)	(&gt;K:GLARESHIELD_LIGHTS_SET, Bool) 
+				(L:STATE_LIGHT_INS)	(&gt;K:LIGHT_POTENTIOMETER_22_SET, Percent) 
+				(L:STATE_LIGHT_INS)	(&gt;K:PANEL_LIGHTS_SET, Bool) 
+				
+				(L:STATE_PITOT) (&gt;K:PITOT_HEAT_SET, Bool)
+				
+				
+				(L:STATE_FUEL_XFR) 
+				(A:FUEL TRANSFER PUMP ON:1, Bool) ! and 
+				if{
+					7 (&gt;K:ELECTRICAL_CIRCUIT_TOGGLE, Bool)
+				}
+				
+				(L:STATE_FUEL_XFR) !
+				(A:FUEL TRANSFER PUMP ON:1, Bool) and 
+				if{
+					7 (&gt;K:ELECTRICAL_CIRCUIT_TOGGLE, Bool)
+				}
+	
+	
+	
+				(A:ELECTRICAL MASTER BATTERY:2, Bool)
+				if{
+					2 (&gt;K:TOGGLE_MASTER_BATTERY)
+				}
+	
+	
+	
+				(A:SIM ON GROUND, Bool) 
+				if{	
+
+					(L:STATE_FUEL_PMP)
+					(A:GENERAL ENG FUEL PUMP SWITCH:1, Bool) ! and 
+					if{
+						(&gt;K:TOGGLE_ELECT_FUEL_PUMP1, Bool)
+					}
+					
+					(L:STATE_FUEL_PMP) !
+					(A:GENERAL ENG FUEL PUMP SWITCH:1, Bool) and 
+					if{
+						(&gt;K:TOGGLE_ELECT_FUEL_PUMP1, Bool)
+					}		
+					
+					
+					(L:STATE_FUEL_SELECTOR) (&gt;K:FUEL_SELECTOR_SET)
+					
+				
+					(L:STATE_FLAPS_L) (&gt;A:TRAILING EDGE FLAPS LEFT PERCENT, Percent)
+					(L:STATE_FLAPS_R) (&gt;A:TRAILING EDGE FLAPS RIGHT PERCENT, Percent)
+					(L:STATE_FLAPS_P) (&gt;A:FLAPS HANDLE INDEX, Number)
+					(L:STATE_TRIM) -1 * (&gt;K:AXIS_ELEV_TRIM_SET)
+				
+				
+					(*
+						1 (L:STATE_MASTER_ENG) (&gt;K:2:ENGINE_MASTER_SET, Bool)
+						1 (L:STATE_MASTER_BAT1) (&gt;K:2:MASTER_BATTERY_SET, Bool)
+						2 (L:STATE_MASTER_BAT2) (&gt;K:2:MASTER_BATTERY_SET, Bool)
+						1 (L:STATE_MASTER_AVI) (&gt;K:2:AVIONICS_MASTER_SET, Bool)
+						(L:STATE_PWR_LVR:1)	(&gt;K:AXIS_THROTTLE_SET, Percent)
+						
+					*)
+
+					(L:STATE_ECU_VOTER) (&gt;L:FADEC_ECU_VOTER)	
+					(L:STATE_PARK)	(&gt;K:PARKING_BRAKE_SET, Bool)
+					
+				}
+			
+			}
+			
+					(L:STATE_LOADED) ++ (&gt;L:STATE_LOADED)
+		}
+		els{
+		
+				(A:FUEL TANK LEFT MAIN QUANTITY, gallons) (&gt;L:STATE_FUEL_QUANTITY_L)
+				(A:FUEL TANK RIGHT MAIN QUANTITY, gallons) (&gt;L:STATE_FUEL_QUANTITY_R)	
+				(A:GENERAL ENG FUEL PUMP SWITCH:1, Bool) (&gt;L:STATE_FUEL_PMP)				
+				(A:RECIP ENG FUEL TANK SELECTOR:1, number) (&gt;L:STATE_FUEL_SELECTOR)
+				
+				
+				
+				(A:TRAILING EDGE FLAPS LEFT PERCENT, Percent) (&gt;L:STATE_FLAPS_L)
+				(A:TRAILING EDGE FLAPS RIGHT PERCENT, Percent) (&gt;L:STATE_FLAPS_R)
+				(A:FLAPS HANDLE INDEX, Number) (&gt;L:STATE_FLAPS_P)
+				(A:ELEVATOR TRIM INDICATOR, POSITION 16k) (&gt;L:STATE_TRIM) 
+		
+		
+		
+				(A:KOHLSMAN SETTING MB, Millibars) (&gt;L:STATE_BARO)
+			 
+				(A:COM ACTIVE FREQUENCY:1, Frequency BCD16) (&gt;L:STATE_COM1A)
+				(A:COM STANDBY FREQUENCY:1, Frequency BCD16) (&gt;L:STATE_COM1S)
+				(A:COM ACTIVE FREQUENCY:2, Frequency BCD16) (&gt;L:STATE_COM2A)
+				(A:COM STANDBY FREQUENCY:2, Frequency BCD16) (&gt;L:STATE_COM2S)
+				(A:NAV ACTIVE FREQUENCY:1, Frequency BCD16) (&gt;L:STATE_NAV1A)
+				(A:NAV STANDBY FREQUENCY:1, Frequency BCD16) (&gt;L:STATE_NAV1S)
+				(A:NAV ACTIVE FREQUENCY:2, Frequency BCD16) (&gt;L:STATE_NAV2A)
+				(A:NAV STANDBY FREQUENCY:2, Frequency BCD16) (&gt;L:STATE_NAV2S)
+				(A:ADF ACTIVE FREQUENCY:1, Frequency ADF BCD32) (&gt;L:STATE_ADF1A)
+				(A:ADF STANDBY FREQUENCY:1, Frequency ADF BCD32) (&gt;L:STATE_ADF1S)
+				
+				(A:TRANSPONDER CODE:1, BCO16) (&gt;L:STATE_XPNDR)
+	
+			
+				(A:LIGHT STROBE, Bool) (&gt;L:STATE_LIGHT_STB)
+				(A:LIGHT NAV, Bool) (&gt;L:STATE_LIGHT_POS)
+				(A:LIGHT TAXI, Bool) (&gt;L:STATE_LIGHT_TXI)
+				(A:LIGHT LANDING, Bool) (&gt;L:STATE_LIGHT_LGN)
+				
+				(A:LIGHT CABIN:1, Bool) (&gt;L:STATE_LIGHT_CBN1)	
+				(A:LIGHT CABIN:2, Bool) (&gt;L:STATE_LIGHT_CBN2)	
+				(A:LIGHT CABIN:2, Bool) (&gt;L:STATE_LIGHT_CBN3)	
+				(A:LIGHT POTENTIOMETER:5, Percent) (&gt;L:STATE_LIGHT_FLD)	
+				(A:LIGHT POTENTIOMETER:22, Percent) (&gt;L:STATE_LIGHT_INS)	
+				
+			
+
+				(*
+				(A:RECIP ENG ENGINE MASTER SWITCH:1, Bool) (&gt;L:STATE_MASTER_ENG)
+				(A:ELECTRICAL MASTER BATTERY:1, Bool) (&gt;L:STATE_MASTER_BAT1)  
+				(A:ELECTRICAL MASTER BATTERY:2, Bool) (&gt;L:STATE_MASTER_BAT2)
+				(A:AVIONICS MASTER SWITCH, Bool) (&gt;L:STATE_MASTER_AVI)
+				*)
+				
+				(A:PITOT HEAT SWITCH:1, Bool) (&gt;L:STATE_PITOT)
+				(A:FUEL TRANSFER PUMP ON:1, Bool) (&gt;L:STATE_FUEL_XFR)		
+				(L:FADEC_ECU_VOTER) (&gt;L:STATE_ECU_VOTER)
+				(L:Throttle1_Pos) (&gt;L:STATE_PWR_LVR:1)
+				(A:BRAKE PARKING POSITION, Bool) (&gt;L:STATE_PARK)
+				
+				
+				(L:STATE_AVAILABLE) !
+				if{
+					999 (&gt;L:STATE_LOADED)
+					1 (&gt;L:STATE_AVAILABLE) 
+				}
+				
+			}
+	</Update>
+</Template>	

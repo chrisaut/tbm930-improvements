@@ -21,6 +21,8 @@
     <Include RelativeFile="TBM930_SplitScreen_Templates.xml"/>
     <!-- ############################################### -->
 
+    <Include Path="TBM930\CustomBehaviours.xml"/>
+
     <Template Name="TBM930_Interior_Door_Template">
       <Parameters Type="Default">
         <INDEX>1</INDEX>
@@ -2573,6 +2575,10 @@
         </UPDATE_CODE>
         <FREQUENCY>2</FREQUENCY>
       </UseTemplate>
+    </Component>
+
+    <Component ID="CUSTOM">
+      <UseTemplate Name="Statesaving"></UseTemplate>	
     </Component>
 
     <Component ID="SUN_VISOR">
