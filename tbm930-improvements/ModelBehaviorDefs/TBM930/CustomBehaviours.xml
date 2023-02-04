@@ -39,23 +39,18 @@
 	
 				(L:STATE_XPNDR)	(&gt;K:XPNDR_SET, BCO16) 
 	
-	
 				(L:STATE_LIGHT_STB) (&gt;K:STROBES_SET, Bool) 
 				(L:STATE_LIGHT_POS) (&gt;K:NAV_LIGHTS_SET, Bool) 
 				(L:STATE_LIGHT_TXI) (&gt;K:TAXI_LIGHTS_SET, Bool) 
 				(L:STATE_LIGHT_LGN) (&gt;K:LANDING_LIGHTS_SET, Bool) 
 				
-				1 (L:STATE_LIGHT_CBN1) (&gt;K:2:CABIN_LIGHTS_SET, Bool) 
-				2 (L:STATE_LIGHT_CBN2) (&gt;K:2:CABIN_LIGHTS_SET, Bool) 
-				3 (L:STATE_LIGHT_CBN3) (&gt;K:2:CABIN_LIGHTS_SET, Bool) 
+				(L:STATE_LIGHT_PULSE) (&gt;A:LIGHT LOGO, Bool)	
 			
-				(L:STATE_LIGHT_FLD)	(&gt;K:LIGHT_POTENTIOMETER_5_SET, Percent) 
-				(L:STATE_LIGHT_FLD)	(&gt;K:GLARESHIELD_LIGHTS_SET, Bool) 
-				(L:STATE_LIGHT_INS)	(&gt;K:LIGHT_POTENTIOMETER_22_SET, Percent) 
-				(L:STATE_LIGHT_INS)	(&gt;K:PANEL_LIGHTS_SET, Bool) 
+				(L:STATE_LIGHT_PANEL) (&gt;K:LIGHT_POTENTIOMETER_14_SET, Percent)
+				(L:STATE_LIGHT_DIMMER) (&gt;B:LIGHTING_Dimmer_light, Bool)
+				(L:STATE_LIGHT_CBN) (&gt;O:LIGHTING_Cabin_Light_position)
 				
-				(L:STATE_PITOT) (&gt;K:PITOT_HEAT_SET, Bool)
-				
+				(L:STATE_PITOT) (&gt;K:PITOT_HEAT_SET, Bool)				
 				
 				(L:STATE_FUEL_XFR) 
 				(A:FUEL TRANSFER PUMP ON:1, Bool) ! and 
@@ -128,14 +123,10 @@
 				(A:GENERAL ENG FUEL PUMP SWITCH:1, Bool) (&gt;L:STATE_FUEL_PMP)				
 				(A:RECIP ENG FUEL TANK SELECTOR:1, number) (&gt;L:STATE_FUEL_SELECTOR)
 				
-				
-				
 				(A:TRAILING EDGE FLAPS LEFT PERCENT, Percent) (&gt;L:STATE_FLAPS_L)
 				(A:TRAILING EDGE FLAPS RIGHT PERCENT, Percent) (&gt;L:STATE_FLAPS_R)
 				(A:FLAPS HANDLE INDEX, Number) (&gt;L:STATE_FLAPS_P)
 				(A:ELEVATOR TRIM INDICATOR, POSITION 16k) (&gt;L:STATE_TRIM) 
-		
-		
 		
 				(A:KOHLSMAN SETTING MB, Millibars) (&gt;L:STATE_BARO)
 			 
@@ -152,18 +143,15 @@
 				
 				(A:TRANSPONDER CODE:1, BCO16) (&gt;L:STATE_XPNDR)
 	
-			
 				(A:LIGHT STROBE, Bool) (&gt;L:STATE_LIGHT_STB)
 				(A:LIGHT NAV, Bool) (&gt;L:STATE_LIGHT_POS)
 				(A:LIGHT TAXI, Bool) (&gt;L:STATE_LIGHT_TXI)
 				(A:LIGHT LANDING, Bool) (&gt;L:STATE_LIGHT_LGN)
 				
-				(A:LIGHT CABIN:1, Bool) (&gt;L:STATE_LIGHT_CBN1)	
-				(A:LIGHT CABIN:2, Bool) (&gt;L:STATE_LIGHT_CBN2)	
-				(A:LIGHT CABIN:2, Bool) (&gt;L:STATE_LIGHT_CBN3)	
-				(A:LIGHT POTENTIOMETER:5, Percent) (&gt;L:STATE_LIGHT_FLD)	
-				(A:LIGHT POTENTIOMETER:22, Percent) (&gt;L:STATE_LIGHT_INS)	
-				
+				(A:LIGHT LOGO, Bool) (&gt;L:STATE_LIGHT_PULSE)				
+				(A:LIGHT POTENTIOMETER:14, Percent) (&gt;L:STATE_LIGHT_PANEL)
+				(B:LIGHTING_Dimmer_light, Bool) (&gt;L:STATE_LIGHT_DIMMER)
+				(O:LIGHTING_Cabin_Light_position) (&gt;L:STATE_LIGHT_CBN)
 			
 
 				(*
