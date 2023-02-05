@@ -50,7 +50,22 @@
 				(L:STATE_LIGHT_DIMMER) (&gt;B:LIGHTING_Dimmer_light, Bool)
 				(L:STATE_LIGHT_CBN) (&gt;O:LIGHTING_Cabin_Light_position)
 				
-				(L:STATE_PITOT) (&gt;K:PITOT_HEAT_SET, Bool)				
+				(L:STATE_PITOT) (&gt;K:PITOT_HEAT_SET, Bool)
+				
+				(L:STATE_DEICE_AF) 
+				(A:STRUCTURAL DEICE SWITCH, Bool) ! and 
+				if{
+					1 (&gt;K:TOGGLE_STRUCTURAL_DEICE, Bool)
+				}
+				(L:STATE_DEICE_PROP) 
+				(A:PROP DEICE SWITCH:1, Bool) ! and 
+				if{
+					1 (&gt;K:TOGGLE_PROPELLER_DEICE, Bool)
+				}
+				(L:STATE_DEICE_WINDSHIELD)
+				if{
+					1 (&gt;K:WINDSHIELD_DEICE_ON, Bool)
+				}	
 				
 				(L:STATE_FUEL_XFR) 
 				(A:FUEL TRANSFER PUMP ON:1, Bool) ! and 
@@ -114,7 +129,7 @@
 			
 			}
 			
-					(L:STATE_LOADED) ++ (&gt;L:STATE_LOADED)
+			(L:STATE_LOADED) ++ (&gt;L:STATE_LOADED)
 		}
 		els{
 		
@@ -162,8 +177,13 @@
 				*)
 				
 				(A:PITOT HEAT SWITCH:1, Bool) (&gt;L:STATE_PITOT)
+				(A:STRUCTURAL DEICE SWITCH, Bool) (&gt;L:STATE_DEICE_AF)
+				(A:STRUCTURAL DEICE SWITCH, Bool) (&gt;L:STATE_ICE_LIGHT)
+				(A:PROP DEICE SWITCH:1, Bool) (&gt;L:STATE_DEICE_PROP)
+				(A:WINDSHIELD DEICE SWITCH, Bool) (&gt;L:STATE_DEICE_WINDSHIELD)
+				(A:ENG ANTI ICE:1, Bool) (&gt;L:STATE_INERT_SEP)
+
 				(A:FUEL TRANSFER PUMP ON:1, Bool) (&gt;L:STATE_FUEL_XFR)		
-				(L:FADEC_ECU_VOTER) (&gt;L:STATE_ECU_VOTER)
 				(L:Throttle1_Pos) (&gt;L:STATE_PWR_LVR:1)
 				(A:BRAKE PARKING POSITION, Bool) (&gt;L:STATE_PARK)
 				
