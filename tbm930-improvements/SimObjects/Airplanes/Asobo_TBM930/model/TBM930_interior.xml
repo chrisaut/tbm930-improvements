@@ -1444,27 +1444,31 @@
       </UseTemplate>
 
       <Component ID="Pulselite_Sytem">
-        <Parameters Type="Override">
-          <ON_STATE_CHANGED_EXTERNAL_CODE>
+        <Parameters Type="Default">
+          <UPDATE_LIGHTING_CODE>
             (A:LIGHT LANDING, Bool) if{
               100 (&gt;K:LIGHT_POTENTIOMETER_10_SET)
-              100 (&gt;K:LIGHT_POTENTIOMETER_2_SET)
-              0 (&gt;K:LIGHT_POTENTIOMETER_3_SET)
+              0 (&gt;K:LIGHT_POTENTIOMETER_2_SET)
+              0 sp0
             } els{
-              (A:LIGHT LOGO, Bool) if{
-                0 (&gt;K:LIGHT_POTENTIOMETER_10_SET)
-                0 (&gt;K:LIGHT_POTENTIOMETER_2_SET)
-                100 (&gt;K:LIGHT_POTENTIOMETER_3_SET)
-              } els{
-                (A:LIGHT TAXI, Bool) if{
-                  0 (&gt;K:LIGHT_POTENTIOMETER_10_SET)
-                  100 (&gt;K:LIGHT_POTENTIOMETER_2_SET)
-                  0 (&gt;K:LIGHT_POTENTIOMETER_3_SET)
-                }
-              }
+              0 (&gt;K:LIGHT_POTENTIOMETER_10_SET)
+              (A:LIGHT TAXI, Bool) 100 * (&gt;K:LIGHT_POTENTIOMETER_2_SET)
+              (A:LIGHT LOGO, Bool) sp0
             }
-          </ON_STATE_CHANGED_EXTERNAL_CODE>
+
+            (A:8:CIRCUIT CONNECTION ON:17, Bool) l0 != if{
+              17 8 (&gt;K:2:ELECTRICAL_BUS_TO_CIRCUIT_CONNECTION_TOGGLE)
+            }
+          </UPDATE_LIGHTING_CODE>
         </Parameters>
+        <Parameters Type="Default">
+          <ON_STATE_CHANGED_EXTERNAL_CODE>#UPDATE_LIGHTING_CODE#</ON_STATE_CHANGED_EXTERNAL_CODE>
+        </Parameters>
+
+        <UseTemplate Name="ASOBO_GT_Update">
+          <UPDATE_ONCE>True</UPDATE_ONCE>
+          <UPDATE_CODE>#UPDATE_LIGHTING_CODE#</UPDATE_CODE>
+        </UseTemplate>
 
         <UseTemplate Name="TBM930_Taxi_Landing_Lights_Switch_Template">
           <NODE_ID>extlights_switch_taxi</NODE_ID>
@@ -1860,16 +1864,22 @@
           <BINDING_SET_3_EVENT_ID>BATTERY1_SET</BINDING_SET_3_EVENT_ID>
           <BINDING_SET_3_EVENT_ID_ONLY>True</BINDING_SET_3_EVENT_ID_ONLY>
           <BINDING_SET_3_PARAM_0_IS_DYNAMIC>True</BINDING_SET_3_PARAM_0_IS_DYNAMIC>
+          <!-- p1: toggle flag -->
           <BINDING_SET_3_PARAM_0>
-            0 1 p0 0 == ?
+            p1 0 == if{
+              0
+            } els{
+              2 1 (B:ELECTRICAL_Source_Switch) 2 == ?
+            }
           </BINDING_SET_3_PARAM_0>
 
           <BINDING_SET_4>MASTER_BATTERY_OFF</BINDING_SET_4>
           <BINDING_SET_4_EVENT_ID>MASTER_BATTERY_OFF</BINDING_SET_4_EVENT_ID>
           <BINDING_SET_4_EVENT_ID_ONLY>True</BINDING_SET_4_EVENT_ID_ONLY>
           <BINDING_SET_4_PARAM_0_IS_DYNAMIC>True</BINDING_SET_4_PARAM_0_IS_DYNAMIC>
+          <!-- p1: battery index -->
           <BINDING_SET_4_PARAM_0>
-            p0 0 == p0 1 == or if{
+            p1 0 == p1 1 == or if{
               0
             } els{
               (B:ELECTRICAL_Source_Switch)
@@ -1880,9 +1890,10 @@
           <BINDING_SET_5_EVENT_ID>MASTER_BATTERY_ON</BINDING_SET_5_EVENT_ID>
           <BINDING_SET_5_EVENT_ID_ONLY>True</BINDING_SET_5_EVENT_ID_ONLY>
           <BINDING_SET_5_PARAM_0_IS_DYNAMIC>True</BINDING_SET_5_PARAM_0_IS_DYNAMIC>
+          <!-- p1: battery index -->
           <BINDING_SET_5_PARAM_0>
-            p0 0 == p0 1 == or if{
-              1
+            p1 0 == p1 1 == or if{
+              2 1 (B:ELECTRICAL_Source_Switch) 2 == ?
             } els{
               (B:ELECTRICAL_Source_Switch)
             }
@@ -1892,9 +1903,14 @@
           <BINDING_SET_6_EVENT_ID>MASTER_BATTERY_SET</BINDING_SET_6_EVENT_ID>
           <BINDING_SET_6_EVENT_ID_ONLY>True</BINDING_SET_6_EVENT_ID_ONLY>
           <BINDING_SET_6_PARAM_0_IS_DYNAMIC>True</BINDING_SET_6_PARAM_0_IS_DYNAMIC>
+          <!-- p1: toggle flag; p2: battery index -->
           <BINDING_SET_6_PARAM_0>
-            p1 0 == p1 1 == or if{
-              0 1 p0 0 == ?
+            p2 0 == p2 1 == or if{
+              p1 0 == if{
+                0
+              } els{
+                2 1 (B:ELECTRICAL_Source_Switch) 2 == ?
+              }
             } els{
               (B:ELECTRICAL_Source_Switch)
             }
@@ -1904,9 +1920,10 @@
           <BINDING_SET_7_EVENT_ID>TOGGLE_MASTER_BATTERY</BINDING_SET_7_EVENT_ID>
           <BINDING_SET_7_EVENT_ID_ONLY>True</BINDING_SET_7_EVENT_ID_ONLY>
           <BINDING_SET_7_PARAM_0_IS_DYNAMIC>True</BINDING_SET_7_PARAM_0_IS_DYNAMIC>
+          <!-- p1: battery index -->
           <BINDING_SET_7_PARAM_0>
-            p0 0 == p0 1 == or if{
-              0 1 (B:ELECTRICAL_Source_Switch) 1 == ?
+            p1 0 == p1 1 == or if{
+              1 0 (B:ELECTRICAL_Source_Switch) 0 == ?
             } els{
               (B:ELECTRICAL_Source_Switch)
             }
@@ -1918,13 +1935,10 @@
           <BINDING_SET_8_EVENT_ID>TOGGLE_EXTERNAL_POWER</BINDING_SET_8_EVENT_ID>
           <BINDING_SET_8_EVENT_ID_ONLY>True</BINDING_SET_8_EVENT_ID_ONLY>
           <BINDING_SET_8_PARAM_0_IS_DYNAMIC>True</BINDING_SET_8_PARAM_0_IS_DYNAMIC>
+          <!-- p1: external power index -->
           <BINDING_SET_8_PARAM_0>
             p1 0 == p1 1 == or if{
-              (B:ELECTRICAL_Source_Switch) 2 == if{
-                1
-              } els{
-                2
-              }
+              1 2 (B:ELECTRICAL_Source_Switch) 2 == ?
             } els{
               (B:ELECTRICAL_Source_Switch)
             }
@@ -1934,10 +1948,11 @@
           <BINDING_SET_9_EVENT_ID>SET_EXTERNAL_POWER</BINDING_SET_9_EVENT_ID>
           <BINDING_SET_9_EVENT_ID_ONLY>True</BINDING_SET_9_EVENT_ID_ONLY>
           <BINDING_SET_9_PARAM_0_IS_DYNAMIC>True</BINDING_SET_9_PARAM_0_IS_DYNAMIC>
+          <!-- p1: external power index; p2: toggle flag -->
           <BINDING_SET_9_PARAM_0>
             p1 0 == p1 1 == or if{
               p2 0 == if{
-                1
+                0 1 (B:ELECTRICAL_Source_Switch) 0 == ?
               } els{
                 2
               }
@@ -2151,6 +2166,8 @@
       <UseTemplate Name="ASOBO_AUTOPILOT_Push_Approach_Template">
         <ANIM_NAME>push_autopilot_apr</ANIM_NAME>
         <NODE_ID>push_autopilot_apr</NODE_ID>
+        <SIMVAR_TO_WATCH_0>AUTOPILOT APPROACH HOLD</SIMVAR_TO_WATCH_0>
+        <SIMVAR_TO_WATCH_1>AUTOPILOT GLIDESLOPE HOLD</SIMVAR_TO_WATCH_1>
       </UseTemplate>
 
       <!-- BACKCOURSE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
